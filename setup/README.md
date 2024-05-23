@@ -16,6 +16,6 @@ Credits: This setup process was developed by NumesSanguis as part of [FACSvatar]
 6. In Visual Studio 2015: Select OpenFaceOffline > Release, x64, OpenFaceOffline > Build.
 7. In Visual Studio 2015: Select OpenFaceOffline > Release, x64, OpenFaceOffline > Rebuild. (Yes do this again)
 8. Copy `config.xml` given in this setup folder and put it at `OpenFace-OpenFace_2.1.0\x64\Release\config.xml`. This is important, otherwise OpenFaceOffline will crash at startup.
-9. When you run OpenFaceOffline, it will automatically start ZeroMQ / NetMQ in the background and publish in the format `[topic, timestamp, data_json]`.
+9. When you run OpenFaceOffline in `OpenFace-OpenFace_2.1.0\x64\Release\`, it will automatically start ZeroMQ / NetMQ in the background and publish in the format `[topic, timestamp, data_json]`.
 
 Debugging OpenFace with ZeroMQ: Use Wireshark to look at traffic on localhost (`127.0.0.1`). Be sure to use the display filter tcp.port == 5570.
