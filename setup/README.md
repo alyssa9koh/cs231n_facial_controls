@@ -4,7 +4,7 @@ This is a Windows-specific guide for setting up our project.
 
 Credits: This setup process was developed by NumesSanguis as part of [FACSvatar](https://github.com/NumesSanguis/FACSvatar). It has been modified for our project. See [this issue](https://github.com/TadasBaltrusaitis/OpenFace/issues/375) for more information.
 
-1. Download OpenFace 2.1.0 source code from [the OpenFace repo](https://github.com/TadasBaltrusaitis/OpenFace/releases). Follow the installation instructions given in [the wiki](https://github.com/TadasBaltrusaitis/OpenFace/wiki/Windows-Installation). To run `download_models.ps1`, open Terminal as Administrator and run `powershell -ExecutionPolicy Bypass -File .\download_models.ps1` in the root directory.
+1. Download OpenFace 2.1.0 source code from [the OpenFace repo](https://github.com/TadasBaltrusaitis/OpenFace/releases). Follow the installation instructions given in [the wiki](https://github.com/TadasBaltrusaitis/OpenFace/wiki/Windows-Installation). To run `download_models.ps1`, open Terminal as Administrator and run `powershell -ExecutionPolicy Bypass -File .\download_models.ps1` in the root directory (`OpenFace-OpenFace_2.1.0`).
 2. Install Visual Studio 2015.
 3. Overwrite `MainWindow.xaml.cs` in `OpenFace-OpenFace_2.1.0\gui\OpenFaceOffline` with `MainWindow.xaml.cs` given in this setup folder. 
     1. Note that `pubSocket.Connect` from the FACSvatar repo was replaced with `pubSocket.Bind`. This is important or else the ZeroMQ messages will not work!
