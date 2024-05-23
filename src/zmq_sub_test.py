@@ -13,32 +13,29 @@ For information on setting up OpenFace with ZeroMQ, see the `setup` folder in th
 import zmq
 
 def main():
-    # Create a ZeroMQ context
+    # Prepare our context and subscriber socket
     context = zmq.Context()
+    socket = context.socket(zmq.SUB)
 
-    # Create a subscriber socket
-    subscriber = context.socket(zmq.SUB)
+    # Connect to the publisher server
+    socket.connect("tcp://127.0.0.1:5570")
 
-    # Set the topic filter. In this case, we're subscribing to 'openface'.
-    subscriber.setsockopt_string(zmq.SUBSCRIBE, "openface")
+    # Subscribe to the topic "openface"
+    socket.setsockopt_string(zmq.SUBSCRIBE, 'openface')
 
-    # Connect to the publisher endpoint
-    subscriber.connect("tcp://127.0.0.1:5570")  # Update the IP and port if necessary
+    print("Subscriber connected and waiting for messages...")
 
-    try:
-        while True:
-            # Receive the message
-            message = subscriber.recv_string()
-
-            # Print the received message
-            print("Received message:", message)
-
-    except KeyboardInterrupt:
-        print("Exiting...")
-
-    # Close the socket and context when done
-    subscriber.close()
-    context.term()
+    while True:
+        try:
+            # Receive the message with a timeout of 100 milliseconds
+            message = socket.recv_string(flags=zmq.NOBLOCK)
+            if message:
+                print(f"Received message: {message}")
+        except zmq.Again:
+            pass  # No message received within timeout
+        except KeyboardInterrupt:
+            print("Subscriber interrupted")
+            break
 
 if __name__ == "__main__":
     main()
