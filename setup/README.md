@@ -6,7 +6,8 @@ Credits: This setup process was developed by NumesSanguis as part of [FACSvatar]
 
 1. Download OpenFace 2.1.0 source code from https://github.com/TadasBaltrusaitis/OpenFace/releases. Follow the installation instructions given in the wiki. To run `download_models.ps1`, open Terminal as Administrator and run `powershell -ExecutionPolicy Bypass -File .\download_models.ps1` in the rood directory.
 2. Install Visual Studio 2015.
-3. Overwrite `MainWindow.xaml.cs` in `OpenFace\gui\OpenFaceOffline` with `MainWindow.xaml.cs` given in this setup folder. Note that `pubSocket.Connect` from the FACSvatar repo was replaced with `pubSocket.Bind`. This is important or else the ZeroMQ messages will not work!
+3. Overwrite `MainWindow.xaml.cs` in `OpenFace\gui\OpenFaceOffline` with `MainWindow.xaml.cs` given in this setup folder. 
+    1. Note that `pubSocket.Connect` from the FACSvatar repo was replaced with `pubSocket.Bind`. This is important or else the ZeroMQ messages will not work!
 4. Open `OpenFace/OpenFace.sln` with Visual Studio 2015.
 5. In "Solution Explorer", right click on "OpenFaceOffline" > "Manage NuGet Packages".
     1. Browse and search for `netmq`. Install NetMQ by NetMQ with version v4.0.0.1.
