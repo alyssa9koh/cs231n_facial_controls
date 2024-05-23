@@ -32,6 +32,8 @@ def main():
             if message:
                 print(f"Received message: {message}")
         except zmq.Again:
+            # This case allows the code to listen for KeyboardInterrupts,
+            # since socket.recv_string() blocks the execution of the loop
             pass  # No message received within timeout
         except KeyboardInterrupt:
             print("Subscriber interrupted")
