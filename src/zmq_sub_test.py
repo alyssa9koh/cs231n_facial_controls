@@ -19,8 +19,8 @@ def main():
     # Create a subscriber socket
     subscriber = context.socket(zmq.SUB)
 
-    # Set the topic filter. In this case, we're subscribing to all topics.
-    subscriber.setsockopt_string(zmq.SUBSCRIBE, "")
+    # Set the topic filter. In this case, we're subscribing to 'openface'.
+    subscriber.setsockopt_string(zmq.SUBSCRIBE, "openface")
 
     # Connect to the publisher endpoint
     subscriber.connect("tcp://127.0.0.1:5570")  # Update the IP and port if necessary
