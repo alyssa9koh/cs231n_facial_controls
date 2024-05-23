@@ -6,6 +6,8 @@ at port 5570. When it receives a message, it prints it to the terminal.
 
 To run this file: open a terminal, navigate to the directory this file is in, and
 run `python zmq_sub_test.py`.
+
+For information on setting up OpenFace with ZeroMQ, see the `setup` folder in this repo.
 '''
 
 import zmq
