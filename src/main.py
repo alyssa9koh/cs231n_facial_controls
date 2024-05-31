@@ -1,6 +1,6 @@
 import pyautogui
 
-from bootup.bootup import *
+from bootup import *
 
 
 # Get the size of the primary monitor
