@@ -1,10 +1,11 @@
 import pyautogui
 import zmq
 import time
+import json
 
 
 # Defines what functions should be exported
-__all__ = ['start']
+__all__ = ['bootup_main']
 
 
 def screen_calibration():
@@ -21,7 +22,7 @@ def screen_calibration():
     print('Feel free to move the mouse however you please.')
     print('The program has recorded the coordinates for the center of your screen already.')
     print('')
-    return center_x, center_y
+    return screen_width, screen_height, center_x, center_y
 
 
 def zmq_sub_test():
@@ -71,24 +72,36 @@ def zmq_calibration():
     return socket
 
 
+# pose_Rz correlates to tilt
 def mouse_mvmt_calibration(socket):
     print('Let\'s now test that the mouse moves as intended.')
     while True:
         try:
             # Receive the message with a timeout of 100 milliseconds
             message = socket.recv_string(flags=zmq.NOBLOCK)
-            if message:
-                print(f"Received message!: {message}")
+
+            # Check that the message is valid
+            if not message:
+                print('Received message, but message is NULL. Ending program.')
+                return
+            if message == 'openface':
+                continue
+            data = json.loads(message)
+            if isinstance(data, int) or (not isinstance(data, int) and 'pose' not in data):
+                # There are other valid messages that won't have pose. So just continue
+                continue
+            
+            # Parse out pose_Rz, then limit it to the interval [-1,1]
+            pose_Rz = data['pose']['pose_Rz']
+            if pose_Rz > 1: pose_Rz = 1
+            if pose_Rz < -1: pose_Rz = -1
+            
         except zmq.Again as e:
             pass
 
 
-def start():
-    print('-----')
-    print('Project: CS231N Facial Controls starting...')
-    print('')
-    
-    center_x, center_y = screen_calibration()
+def bootup_main():
+    screen_width, screen_height, center_x, center_y = screen_calibration()
 
     socket = zmq_calibration()
 
