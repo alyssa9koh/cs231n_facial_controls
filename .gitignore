@@ -1,4 +1,9 @@
+# Ignore Python bytecode files
+*.pyc
+
+# Ignore __pycache__ directories
+**/__pycache__/
+
+# Ignore specific directories
 OpenFace-OpenFace_2.1.0/
-src/__pycache__
 src/logging
-src/bootup/__pycache__
