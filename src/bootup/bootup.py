@@ -5,7 +5,7 @@ import json
 
 
 # Defines what functions should be exported
-__all__ = ['bootup_main']
+__all__ = ['bootup_main', 'pyautogui_helper_x']
 
 
 def screen_calibration():
@@ -71,9 +71,15 @@ def zmq_calibration():
     print('')
     return socket
 
+# Function to move the mouse cursor
+def pyautogui_helper_x(pose_Rz, screen_width, center_x):
+    # Calculate the new x-coordinate within the screen bounds
+    new_x = center_x - int(pose_Rz * (screen_width / 2))
+    # Move the mouse cursor to the new x-coordinate
+    pyautogui.moveTo(new_x, pyautogui.position().y)
 
 # pose_Rz correlates to tilt
-def mouse_mvmt_calibration(socket):
+def mouse_mvmt_calibration(socket, screen_width, screen_height, center_x, center_y):
     print('Let\'s now test that the mouse moves as intended.')
     while True:
         try:
@@ -96,6 +102,7 @@ def mouse_mvmt_calibration(socket):
             if pose_Rz > 1: pose_Rz = 1
             if pose_Rz < -1: pose_Rz = -1
             
+            pyautogui_helper_x(pose_Rz, screen_width, center_x)
         except zmq.Again as e:
             pass
 
@@ -105,5 +112,5 @@ def bootup_main():
 
     socket = zmq_calibration()
 
-    mouse_mvmt_calibration(socket)
+    mouse_mvmt_calibration(socket, screen_width, screen_height, center_x, center_y)
 
