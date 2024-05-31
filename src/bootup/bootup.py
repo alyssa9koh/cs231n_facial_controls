@@ -43,7 +43,7 @@ def zmq_sub_test():
             message = socket.recv_string(flags=zmq.NOBLOCK)
             if message:
                 print(f"Received message!")
-                return True
+                return socket
         except zmq.Again as e:
             # If the operation would block, handle it here
             print("No message sent or received, retrying in 5...")
@@ -63,11 +63,24 @@ def zmq_calibration():
     print('')
 
     print('Setting up a simple ZeroMQ subscriber and listening for a publisher...')
-    zmq_sub_test()
+    socket = zmq_sub_test()
     print('')
     print('Make sure to keep OpenFaceOffline running.')
     print('If you close it and still want to keep playing, be sure to run this project again.')
     print('')
+    return socket
+
+
+def mouse_mvmt_calibration(socket):
+    print('Let\'s now test that the mouse moves as intended.')
+    while True:
+        try:
+            # Receive the message with a timeout of 100 milliseconds
+            message = socket.recv_string(flags=zmq.NOBLOCK)
+            if message:
+                print(f"Received message!: {message}")
+        except zmq.Again as e:
+            pass
 
 
 def start():
@@ -77,5 +90,7 @@ def start():
     
     center_x, center_y = screen_calibration()
 
-    zmq_calibration()
+    socket = zmq_calibration()
+
+    mouse_mvmt_calibration(socket)
 
