@@ -1,5 +1,4 @@
 import csv
-import os
 from pynput import keyboard, mouse
 import time
 
@@ -41,9 +40,11 @@ def listen_keymouse_inputs():
     # Mouse event handler
     def on_click(x, y, button, pressed):
         if pressed:
-            event = ('Mouse', f'Button {button} pressed at ({x}, {y})', time.time() - start_time)
+            event = ('Mouse', f'Button {button} pressed', time.time() - start_time)
+            # event = ('Mouse', f'Button {button} pressed at ({x}, {y})', time.time() - start_time)
         else:
-            event = ('Mouse', f'Button {button} released at ({x}, {y})', time.time() - start_time)
+            event = ('Mouse', f'Button {button} released', time.time() - start_time)
+            # event = ('Mouse', f'Button {button} released at ({x}, {y})', time.time() - start_time)
         input_events.append(event)
 
     def on_scroll(x, y, dx, dy):
