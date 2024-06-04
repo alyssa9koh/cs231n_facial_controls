@@ -1,6 +1,7 @@
-import csv
 from pynput import keyboard, mouse
 import time
+
+from .test_utils import save_to_csv
 
 
 # Defines what functions should be exported
@@ -8,14 +9,6 @@ __all__ = ['test_logging_keyboard_main']
 
 
 LOG_DIRECTORY = './ignore_dump/'
-
-
-# Function to save input events to a CSV file
-def save_to_csv(events, filename):
-    with open(filename, mode='w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(['Event Type', 'Event', 'Timestamp'])
-        writer.writerows(events)
 
 
 def listen_keymouse_inputs():
