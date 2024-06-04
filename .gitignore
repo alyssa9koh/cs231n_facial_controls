@@ -7,3 +7,4 @@
 # Ignore specific directories
 OpenFace-OpenFace_2.1.0/
 src/logging
+**/ignore_dump
