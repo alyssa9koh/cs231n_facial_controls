@@ -1,7 +1,7 @@
-import pyautogui
-import zmq
-import time
 import json
+import pyautogui
+import time
+import zmq
 
 
 # Defines what functions should be exported
