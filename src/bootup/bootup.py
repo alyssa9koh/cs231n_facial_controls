@@ -2,7 +2,8 @@ import pyautogui
 import zmq
 import time
 import json
-
+# from timeit import default_timer as timer
+pyautogui.PAUSE = 0
 
 # Defines what functions should be exported
 __all__ = ['bootup_main', 'pyautogui_helper_x']
@@ -76,7 +77,10 @@ def pyautogui_helper_x(pose_Rz, screen_width, center_x):
     # Calculate the new x-coordinate within the screen bounds
     new_x = center_x - int(pose_Rz * (screen_width / 2))
     # Move the mouse cursor to the new x-coordinate
+    # start = timer()
     pyautogui.moveTo(new_x, pyautogui.position().y)
+    # end = timer()
+    # print("it took socket recv string: {}".format(end-start))
 
 # pose_Rz correlates to tilt
 def mouse_mvmt_calibration(socket, screen_width, screen_height, center_x, center_y):
@@ -99,28 +103,24 @@ def mouse_mvmt_calibration(socket, screen_width, screen_height, center_x, center
                 continue
             
             if data['au_c']['AU26']: # jaw drop
-                print('pop')
-                # pyautogui.press('space')
+                pyautogui.press('space')
             if data['au_c']['AU01']: # inner brow raise
-                print('bwow waise')
-                # pyautogui.click() # mouse click
+                pyautogui.click() # mouse click
             if data['au_c']['AU10'] and data['au_c']['AU12'] and data['au_c']['AU14'] : # smile :) 
-                #(upper lip raise, lip corner puller, dimpler)
+                # Action Units: upper lip raise, lip corner puller, dimpler
                 if not smiling:                                              
-                    # pyautogui.mouseDown(button='right') # start hold down right click => backing up
-                    smiling = True
-                    print("start uwu")                         
+                    pyautogui.mouseDown(button='right') # start hold down right click => backing up
+                    smiling = True                         
             else:
-                if smiling: # end smile
-                    smiling = False 
-                    print("end uwu")
-                    # pyautogui.mouseUp(button='right') # release right hold        
+                if smiling: # end smile 
+                    pyautogui.mouseUp(button='right') # release right hold 
+                    smiling = False        
 
             # Parse out pose_Rz, then limit it to the interval [-1,1]
             pose_Rz = data['pose']['pose_Rz']
             if pose_Rz > 1: pose_Rz = 1
             if pose_Rz < -1: pose_Rz = -1
-            
+
             pyautogui_helper_x(pose_Rz, screen_width, center_x)
         except zmq.Again as e:
             pass
