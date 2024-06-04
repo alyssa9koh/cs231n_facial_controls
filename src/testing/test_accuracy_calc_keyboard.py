@@ -1,4 +1,7 @@
 
+__all__ = ['test_accuracy_calc_keyboard_main']
+
+
 def compare_inputs(controller_inputs, ai_generated_inputs, time_threshold=0.01):
     correct_matches = 0
     total_comparisons = 0
@@ -25,6 +28,7 @@ def compare_inputs(controller_inputs, ai_generated_inputs, time_threshold=0.01):
     accuracy = correct_matches / total_comparisons if total_comparisons > 0 else 0
     return accuracy
 
-accuracy = compare_inputs(controller_inputs, ai_generated_inputs)
-print(f"Accuracy: {accuracy * 100:.2f}%")
+
+def test_accuracy_calc_keyboard_main():
+    print('meowww')
 

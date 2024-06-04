@@ -2,11 +2,10 @@ import csv
 import os
 from pynput import keyboard, mouse
 import time
-import zmq
 
 
 # Defines what functions should be exported
-__all__ = ['test_logging_main']
+__all__ = ['test_logging_keyboard_main']
 
 
 LOG_DIRECTORY = './ignore_dump/'
@@ -21,16 +20,19 @@ def save_to_csv(events, filename):
 
 
 def listen_keymouse_inputs():
+    # Capture the start time
+    start_time = time.time()
+
     # Keyboard event handler
     def on_key_press(key):
         try:
-            event = ('Keyboard', f'Key {key.char} pressed', time.time())
+            event = ('Keyboard', f'Key {key.char} pressed', time.time() - start_time)
         except AttributeError:
-            event = ('Keyboard', f'Special key {key} pressed', time.time())
+            event = ('Keyboard', f'Special key {key} pressed', time.time() - start_time)
         input_events.append(event)
 
     def on_key_release(key):
-        event = ('Keyboard', f'Key {key} released', time.time())
+        event = ('Keyboard', f'Key {key} released', time.time() - start_time)
         input_events.append(event)
         if key == keyboard.Key.esc:
             # Stop listener
@@ -39,13 +41,13 @@ def listen_keymouse_inputs():
     # Mouse event handler
     def on_click(x, y, button, pressed):
         if pressed:
-            event = ('Mouse', f'Button {button} pressed at ({x}, {y})', time.time())
+            event = ('Mouse', f'Button {button} pressed at ({x}, {y})', time.time() - start_time)
         else:
-            event = ('Mouse', f'Button {button} released at ({x}, {y})', time.time())
+            event = ('Mouse', f'Button {button} released at ({x}, {y})', time.time() - start_time)
         input_events.append(event)
 
     def on_scroll(x, y, dx, dy):
-        event = ('Mouse', f'Scrolled at ({x}, {y}) with delta ({dx}, {dy})', time.time())
+        event = ('Mouse', f'Scrolled at ({x}, {y}) with delta ({dx}, {dy})', time.time() - start_time)
         input_events.append(event)
 
 
@@ -72,7 +74,7 @@ def listen_keymouse_inputs():
     print(f"Input events saved to {filename}")
 
 
-def test_logging_main():
-    print('test_logging_main')
+def test_logging_keyboard_main():
+    print('Now listening to button inputs from keyboard and mouse, as well as mouse scrolling.')
+    print('To exit logging and save what was recorded, press ESC.')
     listen_keymouse_inputs()
-
