@@ -29,14 +29,12 @@ def listen_keymouse_inputs():
             event = ('Keyboard', f'Special key {key} pressed', time.time())
         input_events.append(event)
 
-
     def on_key_release(key):
         event = ('Keyboard', f'Key {key} released', time.time())
         input_events.append(event)
         if key == keyboard.Key.esc:
             # Stop listener
             return False
-
 
     # Mouse event handler
     def on_click(x, y, button, pressed):
@@ -46,10 +44,10 @@ def listen_keymouse_inputs():
             event = ('Mouse', f'Button {button} released at ({x}, {y})', time.time())
         input_events.append(event)
 
-
     def on_scroll(x, y, dx, dy):
         event = ('Mouse', f'Scrolled at ({x}, {y}) with delta ({dx}, {dy})', time.time())
         input_events.append(event)
+
 
     # File to save the input data
     filename = f'{LOG_DIRECTORY}input_log.csv'
