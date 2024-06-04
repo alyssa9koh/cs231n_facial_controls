@@ -81,6 +81,7 @@ def pyautogui_helper_x(pose_Rz, screen_width, center_x):
 # pose_Rz correlates to tilt
 def mouse_mvmt_calibration(socket, screen_width, screen_height, center_x, center_y):
     print('Let\'s now test that the mouse moves as intended.')
+    smiling = False
     while True:
         try:
             # Receive the message with a timeout of 100 milliseconds
@@ -97,6 +98,24 @@ def mouse_mvmt_calibration(socket, screen_width, screen_height, center_x, center
                 # There are other valid messages that won't have pose. So just continue
                 continue
             
+            if data['au_c']['AU26']: # jaw drop
+                print('pop')
+                # pyautogui.press('space')
+            if data['au_c']['AU01']: # inner brow raise
+                print('bwow waise')
+                # pyautogui.click() # mouse click
+            if data['au_c']['AU10'] and data['au_c']['AU12'] and data['au_c']['AU14'] : # smile :) 
+                #(upper lip raise, lip corner puller, dimpler)
+                if not smiling:                                              
+                    # pyautogui.mouseDown(button='right') # start hold down right click => backing up
+                    smiling = True
+                    print("start uwu")                         
+            else:
+                if smiling: # end smile
+                    smiling = False 
+                    print("end uwu")
+                    # pyautogui.mouseUp(button='right') # release right hold        
+
             # Parse out pose_Rz, then limit it to the interval [-1,1]
             pose_Rz = data['pose']['pose_Rz']
             if pose_Rz > 1: pose_Rz = 1
