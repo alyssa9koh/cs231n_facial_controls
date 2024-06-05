@@ -105,7 +105,7 @@ def mouse_mvmt_calibration(socket, screen_width, screen_height, center_x, center
                 # There are other valid messages that won't have pose. So just continue
                 continue
             
-            if data['au_c']['AU09']: # nose_wrinkle
+            if data['au_c']['AU07'] and data['au_c']['AU09'] and data['au_c']['AU10']: # nose_wrinkle
                 if not nose_wrinkle:
                     pydirectinput.keyDown('ctrlleft')
                     nose_wrinkle = True
