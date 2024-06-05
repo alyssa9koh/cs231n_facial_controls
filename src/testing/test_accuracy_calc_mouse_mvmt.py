@@ -22,8 +22,8 @@ def parse_mouse_event(event):
         raise ValueError(f"Cannot parse mouse event: {event}")
 
 def calculate_distance(pos1, pos2):
-    # Euclidean distance between two positions
-    return math.sqrt((pos1[0] - pos2[0]) ** 2 + (pos1[1] - pos2[1]) ** 2)
+    # Euclidean distance between two positions, considering only the x position
+    return abs(pos1[0] - pos2[0])
 
 def analyze_differences(controller_inputs, program_inputs):
     time_diffs = []
