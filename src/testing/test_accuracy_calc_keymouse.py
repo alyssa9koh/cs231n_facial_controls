@@ -1,5 +1,3 @@
-import csv
-
 from .test_utils import load_input_data
 
 __all__ = ['test_accuracy_calc_keymouse_main']
@@ -61,6 +59,6 @@ def test_accuracy_calc_keymouse_main():
 
     # Calculate the accuracy
     print('Running comparisons...')
-    accuracy = compare_keyboard_inputs(controller_inputs, program_inputs)
+    accuracy = compare_keymouse_inputs(controller_inputs, program_inputs)
     print(f'Accuracy: {accuracy * 100:.2f}%')
 
