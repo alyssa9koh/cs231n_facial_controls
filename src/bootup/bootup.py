@@ -9,7 +9,7 @@ pyautogui.PAUSE = 0
 __all__ = ['bootup_main', 'pyautogui_helper_x']
 
 
-def screen_calibration():
+def screen_calibration():    
     print('Calibrating to your screen...')
     # Get the size of the primary monitor
     screen_width, screen_height = pyautogui.size()
@@ -19,7 +19,7 @@ def screen_calibration():
     print('...')
     print('Moving the cursor to the middle of the screen.')
     pyautogui.moveTo(center_x, center_y, duration=1)
-    print('Your screen is now calibrated!')
+    print('Your screen is now calibrated!')                                                                                    
     print('Feel free to move the mouse however you please.')
     print('The program has recorded the coordinates for the center of your screen already.')
     print('')
@@ -86,6 +86,7 @@ def pyautogui_helper_x(pose_Rz, screen_width, center_x):
 def mouse_mvmt_calibration(socket, screen_width, screen_height, center_x, center_y):
     print('Let\'s now test that the mouse moves as intended.')
     smiling = False
+    mouth_open = False
     while True:
         try:
             # Receive the message with a timeout of 100 milliseconds
@@ -102,10 +103,22 @@ def mouse_mvmt_calibration(socket, screen_width, screen_height, center_x, center
                 # There are other valid messages that won't have pose. So just continue
                 continue
             
-            if data['au_c']['AU26']: # jaw drop
-                pyautogui.press('space')
-            if data['au_c']['AU01']: # inner brow raise
-                pyautogui.click() # mouse click
+            # if data['au_c']['AU02']: # jaw drop
+            #     pyautogui.press('space')
+            
+            if data['au_c']['AU25']: # smile :) 
+                # Action Units: upper lip raise, lip corner puller, dimpler
+                if not mouth_open:                                              
+                    pyautogui.mouseDown(button='left') 
+                    mouth_open = True                         
+            else:
+                if mouth_open:
+                    pyautogui.mouseUp(button='left') 
+                    mouth_open = False    
+            
+            # if data['au_c']['AU09']: # nose wrinkle
+            #     pyautogui.press('space') # mouse click
+            
             if data['au_c']['AU10'] and data['au_c']['AU12'] and data['au_c']['AU14'] : # smile :) 
                 # Action Units: upper lip raise, lip corner puller, dimpler
                 if not smiling:                                              
