@@ -1,24 +1,24 @@
-import pyautogui
+import pydirectinput
 import zmq
 import time
 import json
 # from timeit import default_timer as timer
-pyautogui.PAUSE = 0
+pydirectinput.PAUSE = 0
 
 # Defines what functions should be exported
-__all__ = ['bootup_main', 'pyautogui_helper_x']
+__all__ = ['bootup_main', 'pydirectinput_helper_x']
 
 
 def screen_calibration():    
     print('Calibrating to your screen...')
     # Get the size of the primary monitor
-    screen_width, screen_height = pyautogui.size()
+    screen_width, screen_height = pydirectinput.size()
     # Calculate the center of the screen
     center_x = screen_width // 2
     center_y = screen_height // 2
     print('...')
     print('Moving the cursor to the middle of the screen.')
-    pyautogui.moveTo(center_x, center_y, duration=1)
+    pydirectinput.moveTo(center_x, center_y, duration=1)
     print('Your screen is now calibrated!')                                                                                    
     print('Feel free to move the mouse however you please.')
     print('The program has recorded the coordinates for the center of your screen already.')
@@ -73,12 +73,12 @@ def zmq_calibration():
     return socket
 
 # Function to move the mouse cursor
-def pyautogui_helper_x(pose_Rz, screen_width, center_x):
+def pydirectinput_helper_x(pose_Rz, screen_width, center_x):
     # Calculate the new x-coordinate within the screen bounds
     new_x = center_x - int(pose_Rz * (screen_width / 2))
     # Move the mouse cursor to the new x-coordinate
     # start = timer()
-    pyautogui.moveTo(new_x, pyautogui.position().y)
+    pydirectinput.moveTo(new_x, pydirectinput.position()[1])
     # end = timer()
     # print("it took socket recv string: {}".format(end-start))
 
@@ -87,6 +87,8 @@ def mouse_mvmt_calibration(socket, screen_width, screen_height, center_x, center
     print('Let\'s now test that the mouse moves as intended.')
     smiling = False
     mouth_open = False
+    nose_wrinkle = False
+    eyebrow_raise = False
     while True:
         try:
             # Receive the message with a timeout of 100 milliseconds
@@ -103,30 +105,42 @@ def mouse_mvmt_calibration(socket, screen_width, screen_height, center_x, center
                 # There are other valid messages that won't have pose. So just continue
                 continue
             
-            # if data['au_c']['AU02']: # jaw drop
-            #     pyautogui.press('space')
-            
+            if data['au_c']['AU09']: # nose_wrinkle
+                if not nose_wrinkle:
+                    pydirectinput.keyDown('ctrlleft')
+                    nose_wrinkle = True
+            else:
+                if nose_wrinkle:
+                    pydirectinput.keyUp('ctrlleft')
+                    nose_wrinkle = False
+              
             if data['au_c']['AU25']: # smile :) 
                 # Action Units: upper lip raise, lip corner puller, dimpler
-                if not mouth_open:                                              
-                    pyautogui.mouseDown(button='left') 
-                    mouth_open = True                         
+                if not mouth_open:
+                    pydirectinput.mouseDown(button='left') 
+                    mouth_open = True
             else:
                 if mouth_open:
-                    pyautogui.mouseUp(button='left') 
+                    pydirectinput.mouseUp(button='left') 
                     mouth_open = False    
             
-            # if data['au_c']['AU09']: # nose wrinkle
-            #     pyautogui.press('space') # mouse click
+            if data['au_c']['AU01'] and data['au_c']['AU02'] and data['au_c']['AU05']: # eyebrow_raise
+                if not eyebrow_raise:
+                    pydirectinput.keyDown('ctrlright')
+                    eyebrow_raise = True
+            else:
+                if eyebrow_raise:
+                    pydirectinput.keyUp('ctrlright')
+                    eyebrow_raise = False
             
             if data['au_c']['AU10'] and data['au_c']['AU12'] and data['au_c']['AU14'] : # smile :) 
                 # Action Units: upper lip raise, lip corner puller, dimpler
                 if not smiling:                                              
-                    pyautogui.mouseDown(button='right') # start hold down right click => backing up
+                    pydirectinput.mouseDown(button='right') # start hold down right click => backing up
                     smiling = True                         
             else:
                 if smiling: # end smile 
-                    pyautogui.mouseUp(button='right') # release right hold 
+                    pydirectinput.mouseUp(button='right') # release right hold 
                     smiling = False        
 
             # Parse out pose_Rz, then limit it to the interval [-1,1]
@@ -134,7 +148,7 @@ def mouse_mvmt_calibration(socket, screen_width, screen_height, center_x, center
             if pose_Rz > 1: pose_Rz = 1
             if pose_Rz < -1: pose_Rz = -1
 
-            pyautogui_helper_x(pose_Rz, screen_width, center_x)
+            pydirectinput_helper_x(pose_Rz, screen_width, center_x)
         except zmq.Again as e:
             pass
 
