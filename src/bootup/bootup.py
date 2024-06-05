@@ -107,11 +107,11 @@ def mouse_mvmt_calibration(socket, screen_width, screen_height, center_x, center
             
             if data['au_c']['AU07'] and data['au_c']['AU09'] and data['au_c']['AU10']: # nose_wrinkle
                 if not nose_wrinkle:
-                    pydirectinput.keyDown('ctrlleft')
+                    pydirectinput.keyDown('z')
                     nose_wrinkle = True
             else:
                 if nose_wrinkle:
-                    pydirectinput.keyUp('ctrlleft')
+                    pydirectinput.keyUp('z')
                     nose_wrinkle = False
               
             if data['au_c']['AU25']: # open mouth (lip part)
@@ -126,11 +126,11 @@ def mouse_mvmt_calibration(socket, screen_width, screen_height, center_x, center
             
             if data['au_c']['AU01'] and data['au_c']['AU02'] and data['au_c']['AU05']: # eyebrow_raise
                 if not eyebrow_raise:
-                    pydirectinput.keyDown('ctrlright')
+                    pydirectinput.keyDown('x')
                     eyebrow_raise = True
             else:
                 if eyebrow_raise:
-                    pydirectinput.keyUp('ctrlright')
+                    pydirectinput.keyUp('x')
                     eyebrow_raise = False
             
             if data['au_c']['AU10'] and data['au_c']['AU12'] and data['au_c']['AU14'] : # smile :) 
