@@ -12,7 +12,7 @@ __all__ = ['test_logging_main']
 
 LOG_DIRECTORY = './src/ignore_dump/'
 KEYMOUSE_CSV_NAME = 'keymouse_log' # No need to put '.csv' at the end
-MOUSE_MVMT_CSV_NAME = 'mouse_mvmt_log'
+MOUSE_MVMT_CSV_NAME = 'mouse_mvmt_loga'
 
 
 def sample_mouse_position(input_events, start_time, sample_interval):
