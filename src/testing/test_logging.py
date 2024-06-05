@@ -10,9 +10,10 @@ from .test_utils import save_to_csv
 __all__ = ['test_logging_main']
 
 
-LOG_DIRECTORY = './src/ignore_dump/'
+LOG_DIRECTORY = './src/testing_output/'
 KEYMOUSE_CSV_NAME = 'keymouse_log' # No need to put '.csv' at the end
-MOUSE_MVMT_CSV_NAME = 'mouse_mvmt_loga'
+MOUSE_MVMT_CSV_NAME = 'mouse_mvmt_log'
+ITERATION = 1
 
 
 def sample_mouse_position(input_events, start_time, sample_interval):
@@ -58,8 +59,8 @@ def listen_keymouse_inputs(sample_interval=0.1):
 
 
     # Files to save the input data
-    keymouse_filename = f'{LOG_DIRECTORY}{KEYMOUSE_CSV_NAME}.csv'
-    mouse_mvmt_filename = f'{LOG_DIRECTORY}{MOUSE_MVMT_CSV_NAME}.csv'
+    keymouse_filename = f'{LOG_DIRECTORY}{KEYMOUSE_CSV_NAME}_{ITERATION}.csv'
+    mouse_mvmt_filename = f'{LOG_DIRECTORY}{MOUSE_MVMT_CSV_NAME}_{ITERATION}.csv'
 
     # Initialize lists to store the input events
     keymouse_events = []
