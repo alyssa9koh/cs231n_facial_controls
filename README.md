@@ -1,9 +1,9 @@
 # cs231n_facial_controls
 
-nose wrinkle -> LCONTROL -> z -> use item
+nose wrinkle -> z -> nunchuck z -> use item
 
-eyebrow raise -> RCONTROL -> c -> look behind
+eyebrow raise -> x -> nunchuck c -> look behind
 
-lip part -> CLICK0 -> a -> accelerate
+lip part -> CLICK0 -> wii remote a -> accelerate
 
-smile -> CLICK1 -> b -> brake/reverse 
+smile -> CLICK1 -> wii remote b -> brake/reverse 
