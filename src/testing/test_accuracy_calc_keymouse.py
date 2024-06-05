@@ -1,13 +1,14 @@
 import csv
 
-__all__ = ['test_accuracy_calc_keyboard_main']
+from .test_utils import load_input_data
+
+__all__ = ['test_accuracy_calc_keymouse_main']
 
 
-LOG_DIRECTORY_PARENT = 'src'
-LOG_DIRECTORY = './ignore_dump/'
+LOG_DIRECTORY = './src/ignore_dump/'
 
 
-def compare_inputs(controller_inputs, program_inputs, time_threshold=0.01):
+def compare_keymouse_inputs(controller_inputs, program_inputs, time_threshold=0.01):
     correct_matches = 0
     total_comparisons = 0
     
@@ -42,17 +43,11 @@ def compare_inputs(controller_inputs, program_inputs, time_threshold=0.01):
     return accuracy
 
 
-def load_input_data(filename):
-    with open(filename, mode='r', newline='') as file:
-        reader = csv.DictReader(file)
-        return list(reader)
-
-
-def test_accuracy_calc_keyboard_main():
-    print(f'This program will be loading CSV files from the folder {LOG_DIRECTORY} located in {LOG_DIRECTORY_PARENT}.')
-    print('What is the file name of the controller input CSV?')
+def test_accuracy_calc_keymouse_main():
+    print(f'This program will be loading CSV files from the folder {LOG_DIRECTORY}.')
+    print('What is the file name of the controller input CSV? Please include the .csv at the end of the filename.')
     controller_inputs_csv = input('')
-    print('What is the file name of the program input CSV?')
+    print('What is the file name of the program input CSV? Please include the .csv at the end of the filename.')
     program_inputs_csv = input('')
     print('')
 
@@ -66,6 +61,6 @@ def test_accuracy_calc_keyboard_main():
 
     # Calculate the accuracy
     print('Running comparisons...')
-    accuracy = compare_inputs(controller_inputs, program_inputs)
+    accuracy = compare_keyboard_inputs(controller_inputs, program_inputs)
     print(f'Accuracy: {accuracy * 100:.2f}%')
 
