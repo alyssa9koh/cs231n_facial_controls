@@ -114,8 +114,7 @@ def mouse_mvmt_calibration(socket, screen_width, screen_height, center_x, center
                     pydirectinput.keyUp('ctrlleft')
                     nose_wrinkle = False
               
-            if data['au_c']['AU25']: # smile :) 
-                # Action Units: upper lip raise, lip corner puller, dimpler
+            if data['au_c']['AU25']:
                 if not mouth_open:
                     pydirectinput.mouseDown(button='left') 
                     mouth_open = True
